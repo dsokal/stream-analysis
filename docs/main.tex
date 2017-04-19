@@ -1,0 +1,55 @@
+%&pdflatex
+
+\documentclass[12pt]{report}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{amsmath} % for implementation of the matrix environment
+\usepackage{blindtext}
+\usepackage{caption}
+\usepackage{color}
+\usepackage[pdftex]{graphicx} \graphicspath{{./plots/}}
+\usepackage{epstopdf} \epstopdfsetup{update} % only regenerate pdf files when eps file is newer
+\usepackage{float} % figure groups aka floats
+\usepackage{forest} % for MFS elimination tree diagram
+\usepackage[left=3.5cm, right=3.5cm]{geometry} % margins
+\usepackage[shellescape,latex]{gmp} % metapost for UMLs
+\usepackage[hidelinks]{hyperref} % ToC/LoA/LoF/LoT entries are links
+\usepackage{mathptmx} % Times New Roman like font
+\usepackage{pdfpages} % for inserting pdf as the initial pages
+\usepackage{setspace} \onehalfspacing % 1.5 line spacing
+\usepackage{subcaption}
+\usepackage{xfrac} % nice slanted fractions
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{polski}
+\usepackage{indentfirst}
+
+
+\newcommand{\bt}{\blindtext}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\rev}[1]{#1}
+\newcommand{\T}[1]{\texttt{#1}}
+
+\algnewcommand\And{\,\textbf{and}\,}
+\algnewcommand\Or{\,\textbf{or}\,}
+\algnewcommand{\LineComment}[1]{\State \(\triangleright\) #1}
+
+
+\begin{document}
+
+\includepdf[pages={-,{}}]{initial-pages.pdf} % `-' for all pages, `{}' for an empty page
+
+\tableofcontents
+
+\include{1-intro}
+
+\nocite{*} % forces bibtex to include all citations, whether or not they were referred to in the paper
+
+\cleardoublepage
+\addcontentsline{toc}{chapter}{Bibliografia}
+\bibliographystyle{bib-style}
+\bibliography{bibliography}
+
+\end{document}
+
