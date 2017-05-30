@@ -1,6 +1,10 @@
-main.bbl
-main.blg
-main.log
-main.out
+*.bbl
+*.blg
+*.log
+*.out
 main.pdf
-main.toc
+*.toc
+*.aux
+*.fdb_latexmk
+*.fls
+*.synctex.gz
