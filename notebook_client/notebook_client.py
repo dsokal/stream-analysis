@@ -7,7 +7,7 @@ import zmq
 
 
 class NotebookClient(object):
-    def __initialize__(self):
+    def __init__(self):
         self.context = zmq.Context()
 
     def initialize_producers_manager_connection(self):
