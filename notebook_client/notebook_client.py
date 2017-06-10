@@ -43,7 +43,8 @@ class NotebookClient(object):
     def execute_producers_manager_command(self, command):
         payload = self.encode_command(command)
         self.producers_manager.send(payload)
-        result = self.producers_manager.recv()
+        result_json = self.producers_manager.recv().decode('utf-8')
+        result = json.loads(result_json)
         if 'error' in result.keys():
             print(result['error'], file=sys.stderr)
             return {}
