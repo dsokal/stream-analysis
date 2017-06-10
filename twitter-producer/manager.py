@@ -61,6 +61,7 @@ def stop_producer(msg):
 if __name__ == '__main__':
     atexit.register(kill_children)
     while True:
+        print("Waiting for messages")
         msg_json = socket.recv()
 
         msg = json.loads(msg_json)
