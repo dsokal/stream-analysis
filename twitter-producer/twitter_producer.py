@@ -50,7 +50,7 @@ def parse_tweet(tweet):
     user_keys = ('id', 'name', 'verified', 'friends_count', 'favourites_count')
     data = { key: tweet[key] for key in tweet_keys }
     data['user'] = { key: tweet['user'][key] for key in user_keys }
-    return json.dump(data)
+    return json.dumps(data)
 
 
 @log_progress('Loading Kafka configuration')
