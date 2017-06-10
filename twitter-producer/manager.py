@@ -18,7 +18,7 @@ def kill_children():
         kill_producer(pid)
 
 def handle_message(msg):
-    print("Received request: %j" % msg)
+    print("Received request: %s" % msg)
     cmd = msg["cmd"]
     if cmd == "start":
         return start_producer(msg)
