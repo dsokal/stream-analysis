@@ -54,6 +54,7 @@ def stop_producer(msg):
     pid = msg["pid"]
     if pid in producers:
         kill_producer(pid)
+        producers.remove(pid)
         return { "status": "stopped" }
     else:
         return { "error": "producer not found" }
