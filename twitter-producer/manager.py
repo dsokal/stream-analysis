@@ -11,7 +11,7 @@ socket.bind("ipc://../producers-manager")
 producers = set()
 
 def kill_producer(pid):
-    os.kill(child_pid, signal.SIGTERM)
+    os.kill(pid, signal.SIGTERM)
 
 def kill_children():
     for pid in list(producers):
