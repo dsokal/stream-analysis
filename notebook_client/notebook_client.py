@@ -13,7 +13,7 @@ class NotebookClient(object):
     def initialize_producers_manager_connection(self):
         load_dotenv(find_dotenv())
         producers_manager_address = os.environ.get('PRODUCERS_MANAGER_ADDRESS')
-        self.producers_manager = self.context.socket(ZMQ.REQ)
+        self.producers_manager = self.context.socket(zmq.REQ)
         self.producers_manager.connect(producers_manager_address)
 
     def start_streaming_command(self, topic, filters):
