@@ -65,11 +65,10 @@ def initialize_kafka_producer(bootstrap_servers):
     return KafkaProducer(bootstrap_servers=bootstrap_servers)
 
 
-def main(topic):
+def main(topic, filters):
     load_environment()
     credentials = load_twitter_credentials()
     twitter_client = initialize_twitter_api_client(credentials)
-    filters = { 'locations': '-74,40,-73,41' }
     stream = twitter_stream(twitter_client, filters)
     bootstrap_servers = kafka_configuration()['bootstrap_servers']
     kafka_producer = initialize_kafka_producer(bootstrap_servers)
@@ -77,5 +76,7 @@ def main(topic):
 
 
 if __name__ == '__main__':
-    topic = sys.argv[1]
-    main(topic)
+    topic, filters_json = sys.argv[1], sys.argv[2]
+    filters = json.loads(filters_json)
+    print("Starting producer with params:", topic, filters)
+    main(topic, filters)
