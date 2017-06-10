@@ -6,7 +6,7 @@ import os
 
 context = zmq.Context()
 socket = context.socket(zmq.REP)
-socket.bind("ipc://producers-manager")
+socket.bind("ipc://../producers-manager")
 
 producers = set()
 
@@ -62,7 +62,7 @@ if __name__ == '__main__':
     atexit.register(kill_children)
     while True:
         print("Waiting for messages")
-        msg_json = socket.recv()
+        msg_json = socket.recv().decode("utf-8")
 
         msg = json.loads(msg_json)
         result = handle_message(msg)
