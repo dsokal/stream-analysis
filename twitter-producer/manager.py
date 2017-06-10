@@ -6,7 +6,7 @@ import os
 
 context = zmq.Context()
 socket = context.socket(zmq.REP)
-socket.bind("ipc://producers-manager")
+socket.bind("ipc://../producers-manager")
 
 producers = set()
 
@@ -18,7 +18,7 @@ def kill_children():
         kill_producer(pid)
 
 def handle_message(msg):
-    print("Received request: %j" % msg)
+    print("Received request: %s" % msg)
     cmd = msg["cmd"]
     if cmd == "start":
         return start_producer(msg)
@@ -61,7 +61,8 @@ def stop_producer(msg):
 if __name__ == '__main__':
     atexit.register(kill_children)
     while True:
-        msg_json = socket.recv()
+        print("Waiting for messages")
+        msg_json = socket.recv().decode("utf-8")
 
         msg = json.loads(msg_json)
         result = handle_message(msg)
