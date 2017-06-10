@@ -3,6 +3,7 @@ import json
 import subprocess
 import atexit
 import os
+import signal
 
 context = zmq.Context()
 socket = context.socket(zmq.REP)
