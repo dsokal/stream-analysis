@@ -42,7 +42,7 @@ def start_producer(msg):
 def check_status(msg):
     global producers
 
-    pid = msg_json["pid"]
+    pid = msg["pid"]
     if pid in producers:
         return { "status": "running" }
     else:
@@ -51,7 +51,7 @@ def check_status(msg):
 def stop_producer(msg):
     global producers
 
-    pid = msg_json["pid"]
+    pid = msg["pid"]
     if pid in producers:
         kill_producer(pid)
         return { "status": "stopped" }
