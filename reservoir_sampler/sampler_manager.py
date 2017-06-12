@@ -49,6 +49,7 @@ class SamplerManager(object):
             input_topic, output_topic, size, limit
         ])
         self.state = self.STATE_RUNNING
+        print('Started sampler')
         return { 'status': 'started' }
 
     def check_status(self):
