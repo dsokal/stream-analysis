@@ -35,9 +35,9 @@ class SamplerManager(object):
         if cmd == 'start':
             return self.start_sampler(msg)
         elif cmd == 'status':
-            return self.check_status(msg)
+            return self.check_status()
         elif cmd == 'stop':
-            return self.stop_sampler(msg)
+            return self.stop_sampler()
         else:
             return { 'error': 'unsupported command' }
 
