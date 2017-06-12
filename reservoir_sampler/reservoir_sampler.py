@@ -32,7 +32,7 @@ def initialize_kafka_producer(bootstrap_servers):
 @log_progress('Populating reservoir')
 def populate_reservoir(kafka_consumer, reservoir, limit):
     for i in range(limit):
-        element = kafka_consumer.__next__().decode('utf-8')
+        element = kafka_consumer.__next__().value
         reservoir.process_element(element)
     return reservoir
 
