@@ -48,8 +48,9 @@ def stream_tweets_to_kafka(tweets_stream, kafka_client, topic):
 def parse_tweet(tweet):
     tweet_keys = ('timestamp_ms', 'text')
     user_keys = ('id', 'name', 'verified', 'friends_count', 'favourites_count')
-    data = { key: tweet[key] for key in tweet_keys }
-    data['user'] = { key: tweet['user'][key] for key in user_keys }
+    tweet_data = { key: tweet[key] for key in tweet_keys }
+    user_data = { 'user_'.format(key): tweet['user'][key] for key in user_keys }
+    data = {**tweet_data, **user_data}
     return bytes(json.dumps(data), 'utf-8')
 
 
