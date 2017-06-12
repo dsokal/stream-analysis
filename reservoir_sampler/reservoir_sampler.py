@@ -41,6 +41,7 @@ def populate_reservoir(kafka_consumer, reservoir, limit):
 def stream_reservoir_to_kafka(kafka_producer, topic, reservoir):
     for element in reservoir:
         kafka_producer.send(topic, element)
+    kafka_producer.flush()
 
 
 def main(input_topic, output_topic, reservoir_size, limit):
