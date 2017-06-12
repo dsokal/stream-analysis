@@ -27,7 +27,7 @@ class SamplerManager(object):
         self.socket.bind(sampler_manager_address)
 
     def kill_sampler(self):
-        os.kill(self.sampler, signal.SIGTERM)
+        os.kill(self.sampler.pid, signal.SIGTERM)
 
     def handle_message(self, msg):
         print('Received request: %s' % msg)
