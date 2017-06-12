@@ -52,10 +52,10 @@ class NotebookClient(object):
             'size': size, 'limit': limit
         }
 
-    def stop_streaming_command(self):
+    def stop_sampling_command(self):
         return { 'cmd': 'stop' }
 
-    def streaming_status_command(self):
+    def sampling_status_command(self):
         return { 'cmd': 'status' }
 
     def start_sampling(self, input_topic, output_topic, size, limit):
@@ -66,12 +66,12 @@ class NotebookClient(object):
         return result.get('pid')
 
     def stop_sampling(self):
-        command = self.stop_streaming_command()
+        command = self.stop_sampling_command()
         result = self.execute_sampler_manager_command(command)
         return result.get('status')
 
-    def streaming_status(self):
-        command = self.streaming_status_command(pid)
+    def sampling_status(self):
+        command = self.sampling_status_command(pid)
         result = self.execute_sampler_manager_command(command)
         return result.get('status')
 
