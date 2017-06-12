@@ -10,7 +10,7 @@ import zmq
 
 class SamplerManager(object):
     STATE_WAITING = 'waiting'
-    STATE_RUNNUNG = 'running'
+    STATE_RUNNING = 'running'
     STATE_FINISHED = 'finished'
     STATE_STOPPED = 'stopeed'
 
@@ -49,7 +49,6 @@ class SamplerManager(object):
             input_topic, output_topic, size, limit
         ])
         self.state = self.STATE_RUNNING
-        print('Started sampler')
         return { 'status': 'started' }
 
     def check_status(self):

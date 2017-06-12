@@ -71,7 +71,7 @@ class NotebookClient(object):
         return result.get('status')
 
     def sampling_status(self):
-        command = self.sampling_status_command(pid)
+        command = self.sampling_status_command()
         result = self.execute_sampler_manager_command(command)
         return result.get('status')
 

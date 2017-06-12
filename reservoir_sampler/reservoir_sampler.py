@@ -40,7 +40,7 @@ def populate_reservoir(kafka_consumer, reservoir, limit):
 @log_progress('Streaming reservoir to kafka')
 def stream_reservoir_to_kafka(kafka_producer, topic, reservoir):
     for element in reservoir:
-        kafka_producer.send(topic, bytes(element, 'utf-8'))
+        kafka_producer.send(topic, element)
 
 
 def main(input_topic, output_topic, reservoir_size, limit):
@@ -51,6 +51,7 @@ def main(input_topic, output_topic, reservoir_size, limit):
     reservoir = Reservoir(reservoir_size)
     reservoir = populate_reservoir(kafka_consumer, reservoir, limit)
     stream_reservoir_to_kafka(kafka_producer, output_topic, reservoir)
+
 
 if __name__ == '__main__':
     input_topic, output_topic = sys.argv[1], sys.argv[2]
