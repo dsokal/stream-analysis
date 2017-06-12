@@ -49,7 +49,7 @@ def parse_tweet(tweet):
     tweet_keys = ('timestamp_ms', 'text')
     user_keys = ('id', 'name', 'verified', 'friends_count', 'favourites_count')
     tweet_data = { key: tweet[key] for key in tweet_keys }
-    user_data = { 'user_'.format(key): tweet['user'][key] for key in user_keys }
+    user_data = { 'user_{0}'.format(key): tweet['user'][key] for key in user_keys }
     data = {**tweet_data, **user_data}
     return bytes(json.dumps(data), 'utf-8')
 
