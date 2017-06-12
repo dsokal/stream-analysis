@@ -43,16 +43,16 @@ def stream_reservoir_to_kafka(kafka_producer, topic, reservoir):
         kafka_producer.send(topic, element)
 
 
-def main(topic, reservoir_size, limit):
+def main(input_topic, output_topic, reservoir_size, limit):
     load_environment()
     bootstrap_servers = kafka_configuration()['bootstrap_servers']
-    kafka_consumer = initialize_kafka_consumer(topic, bootstrap_servers)
+    kafka_consumer = initialize_kafka_consumer(input_topic, bootstrap_servers)
     kafka_producer = initialize_kafka_producer(bootstrap_servers)
     reservoir = Reservoir(reservoir_size)
     reservoir = populate_reservoir(kafka_consumer, reservoir, limit)
-    stream_reservoir_to_kafka(kafka_producer, topic, reservoir)
+    stream_reservoir_to_kafka(kafka_producer, output_topic, reservoir)
 
 if __name__ == '__main__':
-    topic = sys.argv[1]
-    reservoir_size, limit = int(sys.argv[2]), int(sys.argv[3])
-    main(topic, reservoir_size, limit)
+    input_topic, output_topic = sys.argv[1], sys.argv[2]
+    reservoir_size, limit = int(sys.argv[3]), int(sys.argv[4])
+    main(input_topic, output_topic, reservoir_size, limit)
