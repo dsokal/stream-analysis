@@ -65,7 +65,7 @@ class SamplerManager(object):
 
     def update_status(self):
         if self.sampler and self.sampler.poll() is not None:
-            self.status = self.STATE_FINISHED
+            self.state = self.STATE_FINISHED
             self.sampler = None
 
     def start(self):
