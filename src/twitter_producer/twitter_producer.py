@@ -42,6 +42,7 @@ def stream_tweets_to_kafka(tweets_stream, kafka_client, topic):
     for tweet in tweets_stream:
         if not tweet['retweeted'] and tweet['in_reply_to_user_id'] is None:
             data = parse_tweet(tweet)
+            print('.')
             kafka_client.send(topic, data)
 
 

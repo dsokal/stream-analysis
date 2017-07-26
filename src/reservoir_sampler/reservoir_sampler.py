@@ -33,6 +33,7 @@ def initialize_kafka_producer(bootstrap_servers):
 def populate_reservoir(kafka_consumer, reservoir, limit):
     for i in range(limit):
         element = kafka_consumer.__next__().value
+        print(".")
         reservoir.process_element(element)
     return reservoir
 
