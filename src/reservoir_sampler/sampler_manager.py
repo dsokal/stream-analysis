@@ -70,6 +70,7 @@ class SamplerManager(object):
 
     def start(self):
         self.initialize_connection()
+
         while True:
             msg_json = self.socket.recv().decode('utf-8')
             self.update_status()
