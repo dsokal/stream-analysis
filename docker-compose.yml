@@ -29,3 +29,11 @@ services:
       - "8888:8888"
     links:
       - "kafka"
+  sampler:
+    build: ./src/reservoir_sampler
+    volumes:
+     - ./src/reservoir_sampler:/docker/sampler
+    links:
+      - "kafka"
+    ports:
+      - "8002:8002"
