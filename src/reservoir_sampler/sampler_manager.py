@@ -46,7 +46,7 @@ class SamplerManager(object):
         input_topic, output_topic = msg['input_topic'], msg['output_topic']
         size, limit = str(msg['size']), str(msg['limit'])
         self.sampler = subprocess.Popen([
-            'python', 'reservoir_sampler.py',
+            'python', '-u', 'reservoir_sampler.py',
             input_topic, output_topic, size, limit
         ])
         self.state = self.STATE_RUNNING

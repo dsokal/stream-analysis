@@ -42,7 +42,7 @@ class ProducersManager(object):
     def start_producer(self, msg):
         topic, filters = msg['topic'], msg['filters']
         process = subprocess.Popen(
-            ["python", "twitter_producer.py", topic, json.dumps(filters)]
+            ["python", "-u", "twitter_producer.py", topic, json.dumps(filters)]
         )
         self.producers.add(process.pid)
         return { "status": "started", "pid": process.pid }

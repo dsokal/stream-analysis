@@ -29,6 +29,16 @@ services:
       - "8888:8888"
     links:
       - "kafka"
+      - "producer"
+      - "sampler"
+  producer:
+    build: ./src/twitter_producer
+    volumes:
+     - ./src/twitter_producer:/docker/twitter_producer
+    links:
+      - "kafka"
+    ports:
+      - "8001:8001"
   sampler:
     build: ./src/reservoir_sampler
     volumes:
