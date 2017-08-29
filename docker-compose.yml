@@ -31,6 +31,7 @@ services:
       - "kafka"
       - "producer"
       - "sampler"
+      - "cassandra"
   producer:
     build: ./src
     volumes:
@@ -49,3 +50,7 @@ services:
     ports:
       - "8002:8002"
     command: ./run-dev.sh "-w reservoir_sampler" reservoir_sampler.manager
+  cassandra:
+    image: cassandra
+    ports:
+      - "9042:9042"

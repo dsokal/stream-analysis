@@ -4,12 +4,21 @@ from dotenv import find_dotenv, load_dotenv
 import zmq
 
 from lib.serializer import value_deserializer, value_serializer
+from .jobs_manager import JobsManager
 
 
 class NotebookClient(object):
     def __init__(self):
         self.context = zmq.Context()
+        self.producers_manager = None
+        self.sampler_manager = None
+        self.jobs_manager = JobsManager()
+
         load_dotenv(find_dotenv())
+
+    def initialize_connections(self):
+        self.initialize_producers_manager_connection()
+        self.initialize_sampler_manager_connection()
 
     def initialize_producers_manager_connection(self):
         producers_manager_address = os.environ.get('PRODUCERS_MANAGER_ADDRESS')
@@ -90,3 +99,21 @@ class NotebookClient(object):
             return {}
         else:
             return result
+
+    def start_job(self, filename):
+        command = {'filename': filename}
+        result = self.jobs_manager.start_job(command)
+        return result.get('pid')
+
+    def job_status(self, pid):
+        command = {'pid': pid}
+        result = self.jobs_manager.check_status(command)
+        return result.get('status')
+
+    def stop_job(self, pid):
+        command = {'pid': pid}
+        result = self.jobs_manager.stop_job(command)
+        if 'status' in result:
+            return result.get('status')
+        else:
+            return result.get('error')
