@@ -39,7 +39,7 @@ services:
       - "kafka"
     ports:
       - "8001:8001"
-    command: ./run-dev.sh twitter_producer.producers_manager
+    command: ./run-dev.sh "-w twitter_producer" twitter_producer.manager
   sampler:
     build: ./src
     volumes:
@@ -48,4 +48,4 @@ services:
       - "kafka"
     ports:
       - "8002:8002"
-    command: ./run-dev.sh reservoir_sampler.sampler_manager
+    command: ./run-dev.sh "-w reservoir_sampler" reservoir_sampler.manager
