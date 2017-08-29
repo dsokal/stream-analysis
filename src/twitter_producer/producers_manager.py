@@ -1,18 +1,26 @@
-import atexit
 import json
 import os
 import signal
 import subprocess
-
-from dotenv import load_dotenv, find_dotenv
 import zmq
+import sys
+from dotenv import load_dotenv, find_dotenv
+
+from lib.serializer import value_deserializer, value_serializer
 
 
 class ProducersManager(object):
     def __init__(self):
         self.context = zmq.Context()
         self.producers = set()
-        atexit.register(self.kill_children)
+
+        def on_signal(*args):
+            for pid in list(self.producers):
+                self.kill_producer(pid)
+            sys.exit(1)
+
+        for signal_name in (signal.SIGTERM, signal.SIGINT):
+            signal.signal(signal_name, on_signal)
 
     def initialize_connection(self):
         load_dotenv(find_dotenv())
@@ -22,10 +30,6 @@ class ProducersManager(object):
 
     def kill_producer(self, pid):
         os.kill(pid, signal.SIGTERM)
-
-    def kill_children(self):
-        for pid in list(self.producers):
-            self.kill_producer(pid)
 
     def handle_message(self, msg):
         print("Received request: %s" % msg)
@@ -42,7 +46,7 @@ class ProducersManager(object):
     def start_producer(self, msg):
         topic, filters = msg['topic'], msg['filters']
         process = subprocess.Popen(
-            ["python", "-u", "twitter_producer.py", topic, json.dumps(filters)]
+            ["python", "-u", "-m", "twitter_producer.twitter_producer", topic, json.dumps(filters)]
         )
         self.producers.add(process.pid)
         return { "status": "started", "pid": process.pid }
@@ -66,12 +70,9 @@ class ProducersManager(object):
     def start(self):
         self.initialize_connection()
         while True:
-            msg_json = self.socket.recv().decode("utf-8")
-            msg = json.loads(msg_json)
-            result = self.handle_message(msg)
-            result_json = json.dumps(result)
-            result_bytes = bytes(result_json, 'utf-8')
-            self.socket.send(result_bytes)
+            msg = value_deserializer(self.socket.recv())
+            result = value_serializer(self.handle_message(msg))
+            self.socket.send(result)
 
 
 if __name__ == '__main__':

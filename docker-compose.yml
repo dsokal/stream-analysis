@@ -32,18 +32,20 @@ services:
       - "producer"
       - "sampler"
   producer:
-    build: ./src/twitter_producer
+    build: ./src
     volumes:
-     - ./src/twitter_producer:/docker/twitter_producer
+     - ./src:/docker/app
     links:
       - "kafka"
     ports:
       - "8001:8001"
+    command: ./run-dev.sh twitter_producer.producers_manager
   sampler:
-    build: ./src/reservoir_sampler
+    build: ./src
     volumes:
-     - ./src/reservoir_sampler:/docker/sampler
+     - ./src:/docker/app
     links:
       - "kafka"
     ports:
       - "8002:8002"
+    command: ./run-dev.sh reservoir_sampler.sampler_manager

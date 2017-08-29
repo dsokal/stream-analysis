@@ -1,11 +1,11 @@
-import atexit
-import json
+import sys
 import os
 import signal
 import subprocess
-
 from dotenv import load_dotenv, find_dotenv
 import zmq
+
+from lib.serializer import value_deserializer, value_serializer
 
 
 class SamplerManager(object):
@@ -18,7 +18,13 @@ class SamplerManager(object):
         self.context = zmq.Context()
         self.sampler = None
         self.state = self.STATE_WAITING
-        atexit.register(self.kill_sampler)
+
+        def on_signal(*args):
+            self.kill_sampler()
+            sys.exit(1)
+
+        for signal_name in (signal.SIGTERM, signal.SIGINT):
+            signal.signal(signal_name, on_signal)
 
     def initialize_connection(self):
         load_dotenv(find_dotenv())
@@ -46,7 +52,7 @@ class SamplerManager(object):
         input_topic, output_topic = msg['input_topic'], msg['output_topic']
         size, limit = str(msg['size']), str(msg['limit'])
         self.sampler = subprocess.Popen([
-            'python', '-u', 'reservoir_sampler.py',
+            'python', '-u', '-m', 'reservoir_sampler.reservoir_sampler',
             input_topic, output_topic, size, limit
         ])
         self.state = self.STATE_RUNNING
@@ -73,13 +79,10 @@ class SamplerManager(object):
         self.initialize_connection()
 
         while True:
-            msg_json = self.socket.recv().decode('utf-8')
+            msg = value_deserializer(self.socket.recv())
             self.update_status()
-            msg = json.loads(msg_json)
-            result = self.handle_message(msg)
-            result_json = json.dumps(result)
-            result_bytes = bytes(result_json, 'utf-8')
-            self.socket.send(result_bytes)
+            result = value_serializer(self.handle_message(msg))
+            self.socket.send(result)
 
 
 if __name__ == '__main__':

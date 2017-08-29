@@ -9,6 +9,5 @@ echo "# this file is generated with scripts/pipFreeze.sh, do not update in any o
 pip freeze >> .requirements.txt
 cp .requirements.txt $ROOT/requirements.txt
 cp .requirements.txt $ROOT/pyspark/requirements.txt
-cp .requirements.txt $ROOT/src/reservoir_sampler/requirements.txt
-cp .requirements.txt $ROOT/src/twitter_producer/requirements.txt
+cp .requirements.txt $ROOT/src/requirements.txt
 rm .requirements.txt

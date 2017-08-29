@@ -4,8 +4,8 @@ import sys
 from dotenv import load_dotenv, find_dotenv
 from kafka import KafkaConsumer, KafkaProducer
 
-from reservoir import Reservoir
-from utils import log_progress
+from .reservoir import Reservoir
+from lib.progress import log_progress
 
 
 @log_progress('Loading environment')

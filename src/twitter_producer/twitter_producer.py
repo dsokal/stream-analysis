@@ -6,7 +6,8 @@ from dotenv import load_dotenv, find_dotenv
 from kafka import KafkaProducer
 from TwitterAPI import TwitterAPI
 
-from utils import log_progress
+from lib.progress import log_progress
+from lib.serializer import value_serializer
 
 
 @log_progress('Loading environment')
@@ -52,7 +53,7 @@ def parse_tweet(tweet):
     tweet_data = { key: tweet[key] for key in tweet_keys }
     user_data = { 'user_{0}'.format(key): tweet['user'][key] for key in user_keys }
     data = {**tweet_data, **user_data}
-    return bytes(json.dumps(data), 'utf-8')
+    return value_serializer(data)
 
 
 @log_progress('Loading Kafka configuration')

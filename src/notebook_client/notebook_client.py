@@ -1,9 +1,9 @@
-import json
 import os
 import sys
-
 from dotenv import find_dotenv, load_dotenv
 import zmq
+
+from lib.serializer import value_deserializer, value_serializer
 
 
 class NotebookClient(object):
@@ -82,15 +82,11 @@ class NotebookClient(object):
         return self.execute_command(self.sampler_manager, command)
 
     def execute_command(self, manager, command):
-        payload = self.encode_command(command)
+        payload = value_serializer(command)
         manager.send(payload)
-        result_json = manager.recv().decode('utf-8')
-        result = json.loads(result_json)
+        result = value_deserializer(manager.recv())
         if 'error' in result.keys():
             print(result['error'], file=sys.stderr)
             return {}
         else:
             return result
-
-    def encode_command(self, command):
-        return bytes(json.dumps(command), 'utf-8')
