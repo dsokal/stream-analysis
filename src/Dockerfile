@@ -3,7 +3,7 @@ FROM python:3.6.2-alpine3.6
 WORKDIR /docker/app
 
 # Install system dependencies
-RUN apk add --update --no-cache make gcc g++ nodejs nodejs-npm
+RUN apk add --update --no-cache make gcc g++ nodejs nodejs-npm linux-headers
 
 # Install pip dependencies
 COPY requirements.txt /tmp/requirements.txt
