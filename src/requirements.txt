@@ -1,4 +1,5 @@
 # this file is generated with scripts/pipFreeze.sh, do not update in any other way
+cassandra-driver==3.11.0
 certifi==2017.4.17
 chardet==3.0.4
 click==6.7
@@ -10,5 +11,6 @@ python-dotenv==0.6.4
 pyzmq==16.0.2
 requests==2.18.2
 requests-oauthlib==0.8.0
+six==1.10.0
 TwitterAPI==2.4.5
 urllib3==1.22
