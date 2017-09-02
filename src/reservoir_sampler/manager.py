@@ -12,7 +12,7 @@ class SamplerManager(object):
     STATE_WAITING = 'waiting'
     STATE_RUNNING = 'running'
     STATE_FINISHED = 'finished'
-    STATE_STOPPED = 'stopeed'
+    STATE_STOPPED = 'stopped'
 
     def __init__(self):
         self.context = zmq.Context()

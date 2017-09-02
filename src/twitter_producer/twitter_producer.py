@@ -41,19 +41,14 @@ def twitter_stream(twitter_client, filters):
 @log_progress('Streaming tweets to Kafka')
 def stream_tweets_to_kafka(tweets_stream, kafka_client, topic):
     for tweet in tweets_stream:
-        if not tweet['retweeted'] and tweet['in_reply_to_user_id'] is None:
+        if not tweet.get('retweeted') and tweet.get('in_reply_to_user_id', None) is None:
             data = parse_tweet(tweet)
             print('.')
             kafka_client.send(topic, data)
 
 
 def parse_tweet(tweet):
-    tweet_keys = ('created_at', 'text')
-    user_keys = ('id', 'name', 'verified', 'friends_count', 'favourites_count')
-    tweet_data = { key: tweet[key] for key in tweet_keys }
-    user_data = { 'user_{0}'.format(key): tweet['user'][key] for key in user_keys }
-    data = {**tweet_data, **user_data}
-    return value_serializer(data)
+    return value_serializer(tweet)
 
 
 @log_progress('Loading Kafka configuration')
@@ -82,4 +77,8 @@ if __name__ == '__main__':
     topic, filters_json = sys.argv[1], sys.argv[2]
     filters = json.loads(filters_json)
     print("Starting producer with params:", topic, filters)
-    main(topic, filters)
+    while True:
+        try:
+            main(topic, filters)
+        except:
+            print("An error occurred. Restarting.")
