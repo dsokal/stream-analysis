@@ -1,7 +1,7 @@
 
 STOPWORDS = [
     "'ll", "'s", "'ve", "'t", "'mon", "'d", "'m", ".", ",", "!", "?", "--", "'",
-    ";", "``", "''",  "*", "‘", "’", "(", ")", ":", ";", "n't", "ca",
+    ";", "``", "''",  "*", "‘", "’", "(", ")", ":", ";", "#", "@", "...", "n't", "ca",
     "a", "a's", "able", "about", "above", "according", "accordingly", "across",
     "actually", "after", "afterwards", "again", "against", "ain't", "all",
     "allow", "allows", "almost", "alone", "along", "already", "also",
